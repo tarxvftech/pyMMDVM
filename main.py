@@ -213,7 +213,7 @@ class MMDVM:
         txdelay = 20 # * 10 ms
         #temporary
         bs = MMDVM.SET_CONFIG.to_bytes(1,"big") +\
-                b"\x80\x43" +\
+                b"\x80\x40" +\
                 txdelay.to_bytes(1,"big") +\
                 self.rMODES["IDLE"].to_bytes(1,"big") +\
                 b"\x80\x80" +\
@@ -327,7 +327,7 @@ class MMDVM:
             assert( reply[0] == MMDVM.ACK )
 
     def tx_cw(self, callsign):
-        self.send_mmdvm(MMDVM.SEND_CWID.to_bytes(1,"big") + callsign.encode("ascii"))
+        self.send_mmdvm(MMDVM.SEND_CWID.to_bytes(1,"big") + callsign.upper().encode("ascii"))
         # reply = self.recv_mmdvm()
         # while not len(reply):
             # reply = self.recv_mmdvm()
@@ -355,21 +355,16 @@ def main():
     # v = dattr(m.version())
     # print(v)
     pp(m.status)
-    m.set_mode("idle")
-    m.set_mode("dmr")
     pp(m.status)
-    m.set_mode("M17")
-    m.set_mode("idle")
-    m.set_mode("M17")
     f = 446000000
     m.set_config({})
     m.set_rf_config({"rx_freq":f, "tx_freq":f})
-    pp(m.status)
     m.set_mode("idle")
-    m.tx_cw("W2FBI")
-    while 1:
-        pp(m.status)
-        time.sleep(.1)
+    pp(m.status)
+    m.tx_cw("vvvv HELLO WORLD")
+    # time.sleep(.1)
+    # while m.status["txing"]:
+        # time.sleep(.1)
     del m
     ser.close()
 

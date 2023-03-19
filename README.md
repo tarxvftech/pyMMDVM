@@ -27,3 +27,8 @@ way. Hence Python on Linux.
 
 
 
+
+# MMDVM serial protocol: Hints and tricks
+
+* The modem must have been configured with `SET_FREQ` and `SET_CONFIG` before it will transmit.
+
